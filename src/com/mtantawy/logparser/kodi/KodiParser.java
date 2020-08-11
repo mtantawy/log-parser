@@ -3,10 +3,10 @@ package com.mtantawy.logparser.kodi;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Parser {
-    public String parseLine(String line) {
-//        String line = "2020-08-02 19:22:27.057 T:1899965712  NOTICE: VideoPlayer: finished waiting";
+public class KodiParser {
+    public static final String PARSER_TYPE = "kodi";
 
+    public String parseLine(String line) {
         String patternString = "(^\\S+)(\\s+)(\\S+)(\\s+)(\\S+)(\\s+)(\\S+)(\\s+)(.+)";
         Pattern pattern = Pattern.compile(patternString);
         Matcher matcher = pattern.matcher(line);
