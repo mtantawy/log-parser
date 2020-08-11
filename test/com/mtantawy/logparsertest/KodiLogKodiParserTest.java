@@ -7,9 +7,8 @@ import org.junit.jupiter.api.Test;
 public class KodiLogKodiParserTest {
     @Test
     public void LogLineParsedCorrectly() {
-        KodiParser parser = new KodiParser();
         String logLine = "2020-08-02 19:22:27.057 T:1899965712  NOTICE: VideoPlayer: finished waiting";
-        String parsed = parser.parseLine(logLine);
+        String parsed = KodiParser.parseLine(logLine);
 
         Assertions.assertEquals(logLine, parsed);
     }
