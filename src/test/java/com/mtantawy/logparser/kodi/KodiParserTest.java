@@ -3,12 +3,27 @@ package com.mtantawy.logparser.kodi;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 public class KodiParserTest {
     @Test
     public void LogLineParsedCorrectly() {
-        String logLine = "2020-08-02 19:22:27.057 T:1899965712  NOTICE: VideoPlayer: finished waiting";
-        String parsed = KodiParser.parseLine(logLine);
+        String logLineString = "2020-08-02 19:22:27.057 T:1899965712  NOTICE: VideoPlayer: finished waiting";
+        Optional<LogLine> logLine = KodiParser.parseLine(logLineString);
 
-        Assertions.assertEquals(logLine, parsed);
+        Assertions.assertTrue(logLine.isPresent());
+        logLine.ifPresent(logLineObj -> Assertions.assertEquals(logLineString, logLineObj.getSourceLine()));
+        logLine.ifPresent(logLineObj -> Assertions.assertEquals("2020-08-02T19:22:27.057", logLineObj.getTimestamp().toString()));
+        logLine.ifPresent(logLineObj -> Assertions.assertEquals(1899965712, logLineObj.getThreadId()));
+        logLine.ifPresent(logLineObj -> Assertions.assertEquals(LogLine.Level.NOTICE, logLineObj.getLevel()));
+        logLine.ifPresent(logLineObj -> Assertions.assertEquals("VideoPlayer: finished waiting", logLineObj.getMessage()));
+    }
+
+    @Test
+    public void IncorrectLogLineReturnsEmptyOptional() {
+        String logLineString = "";
+        Optional<LogLine> logLine = KodiParser.parseLine(logLineString);
+
+        Assertions.assertTrue(logLine.isEmpty());
     }
 }
