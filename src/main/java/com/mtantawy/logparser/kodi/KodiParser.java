@@ -1,7 +1,6 @@
 package com.mtantawy.logparser.kodi;
 
 import com.mtantawy.logparser.Parser;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
