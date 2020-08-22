@@ -11,16 +11,20 @@ public class Application {
         System.out.printf("ParserType: %s, FilePath: %s%n", parserType, filePath);
         File file = loadFile(filePath);
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+        Class<? extends Parser> parser;
         switch (parserType.toLowerCase()) {
             case KodiParser.PARSER_TYPE:
-                String line;
-                while((line = bufferedReader.readLine()) != null && line.length() > 0) {
-                    String parsed = KodiParser.parseLine(line);
-                    System.out.println(parsed);
-                }
+                parser = KodiParser.class;
                 break;
             default:
                 System.out.printf("Parser Type not supported: %s%n", parserType);
+                return;
+        }
+
+        String line;
+        while((line = bufferedReader.readLine()) != null && line.length() > 0) {
+            String parsed = (String) parser.getMethod("parseLine", String.class).invoke(null, line);
+            System.out.println(parsed);
         }
     }
     private File loadFile(String filePath) throws Exception {

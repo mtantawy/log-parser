@@ -1,9 +1,11 @@
 package com.mtantawy.logparser.kodi;
 
+import com.mtantawy.logparser.Parser;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class KodiParser {
+public class KodiParser implements Parser {
     public static final String PARSER_TYPE = "kodi";
     private static final String PATTERN = "(^\\S+)(\\s+)(\\S+)(\\s+)(\\S+)(\\s+)(\\S+)(\\s+)(.+)";
 
