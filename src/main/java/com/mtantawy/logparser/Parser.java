@@ -1,7 +1,9 @@
 package com.mtantawy.logparser;
 
+import com.mtantawy.logparser.kodi.LogLine;
+
+import java.util.Optional;
+
 public interface Parser {
-    public static String parseLine(String line) {
-        return line;
-    }
+    Optional<LogLine> parseLine(String line);
 }

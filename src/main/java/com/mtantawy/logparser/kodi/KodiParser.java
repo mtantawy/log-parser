@@ -10,7 +10,8 @@ public class KodiParser implements Parser {
     public static final String PARSER_TYPE = "kodi";
     private static final String PATTERN = "(^\\S+)(\\s+)(\\S+)(\\s+)(\\S+)(\\s+)(\\S+)(\\s+)(.+)";
 
-    public static Optional<LogLine> parseLine(String line) {
+    @Override
+    public Optional<LogLine> parseLine(String line) {
         // remove all invisible control characters
         // http://www.regular-expressions.info/unicode.html
         line  = line.replaceAll("[\\p{C}]", "");
