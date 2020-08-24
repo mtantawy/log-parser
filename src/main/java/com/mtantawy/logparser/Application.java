@@ -3,29 +3,32 @@ package com.mtantawy.logparser;
 import com.mtantawy.logparser.kodi.KodiParser;
 import com.mtantawy.logparser.kodi.LogLine;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Optional;
 
 public class Application {
+    private final String parserType;
+    private final String filePath;
+
     public Application(String parserType, String filePath) throws Exception {
         System.out.printf("ParserType: %s, FilePath: %s%n", parserType, filePath);
 
-        File file = loadFile(filePath);
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-
-        Parser parser = getParser(parserType);
-        parse(bufferedReader, parser);
+        this.parserType = parserType;
+        this.filePath = filePath;
     }
 
-    private void parse(BufferedReader bufferedReader, Parser parser) throws IOException {
+    public void run() throws Exception {
+        FileTailer reader = new FileTailer(filePath);
         String line;
-        while((line = bufferedReader.readLine()) != null && line.length() > 0) {
+        while ((line = reader.pollForLine()) != null) {
+            Parser parser = getParser(parserType);
+            parse(line, parser);
+        }
+    }
+
+    private void parse(String line, Parser parser) throws IOException, InterruptedException {
             Optional<LogLine> logLine = parser.parseLine(line);
             logLine.ifPresent(l -> System.out.println(l.toString()));
-        }
     }
 
     private Parser getParser(String parserType) {
@@ -41,12 +44,4 @@ public class Application {
         return parser;
     }
 
-    private File loadFile(String filePath) throws Exception {
-        File file = new File(filePath);
-        if (!file.exists() || !file.canRead()) {
-            throw new Exception("File does not exist or not readable!");
-        }
-
-        return file;
-    }
 }

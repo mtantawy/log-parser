@@ -2,6 +2,7 @@ package com.mtantawy.logparser.kodi;
 
 import java.time.LocalDateTime;
 
+// TODO: make this implement an interface
 public class LogLine {
     enum Level {
         DEBUG,

@@ -8,5 +8,6 @@ public class Main {
         }
 
         Application application = new Application(args[0], args[1]);
+        application.run();
     }
 }
